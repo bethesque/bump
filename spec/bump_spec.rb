@@ -127,6 +127,28 @@ describe Bump do
     end
   end
 
+  context "VERSION regular expression" do
+    it "recognises a release candidate with a number" do
+      ("1.2.3-rc.1".match(Bump::Bump::VERSION_REGEX)[0]).should eq "1.2.3-rc.1"
+    end
+
+    it "recognises an alpha release" do
+      ("1.2.3-alpha".match(Bump::Bump::VERSION_REGEX)[0]).should eq "1.2.3-alpha"
+    end
+
+    it "recognises an alpha release with a dot and number" do
+      ("1.2.3-alpha.1".match(Bump::Bump::VERSION_REGEX)[0]).should eq "1.2.3-alpha.1"
+    end
+
+    it "recognises an alpha release with a number" do
+      ("1.2.3-alpha1".match(Bump::Bump::VERSION_REGEX)[0]).should eq "1.2.3-alpha1"
+    end
+
+    it "does not recognise a release candidate with a dash and a number" do
+      ("1.2.3-rc-1".match(Bump::Bump::VERSION_REGEX)[0]).should eq "1.2.3-rc"
+    end
+  end
+
   context ".version in gemspec" do
     before do
       write_gemspec
@@ -275,6 +297,7 @@ describe Bump do
       write version_file, <<-RUBY.sub(" " * 8, "")
         module Foo
           Version = "1.2.3"
+
         end
       RUBY
       bump("set 1.3.0").should include("1.3.0")
@@ -287,6 +310,7 @@ describe Bump do
       read(gemspec).should include("version = '1.'+'2.3'")
     end
   end
+
 
   context "version in VERSION" do
     let(:version) { "1.2.3" }

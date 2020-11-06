@@ -17,7 +17,12 @@ module Bump
     BUMPS         = ["major", "minor", "patch", "pre"].freeze
     PRERELEASE    = ["alpha", "beta", "rc", nil].freeze
     OPTIONS       = BUMPS | ["set", "current", "file"]
-    VERSION_REGEX = /(\d+\.\d+\.\d+(?:-(?:#{PRERELEASE.compact.join('|')}))?)/.freeze
+    VERSION_REGEX = /(\d+\.\d+\.\d+
+                        (?:-
+                          (?:#{PRERELEASE.compact.join('|')})
+                          (?:\.?\d+)?
+                        )?
+                    )/x.freeze
 
     class << self
       def defaults
