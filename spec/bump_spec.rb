@@ -144,6 +144,10 @@ describe Bump do
       ("1.2.3-alpha1".match(Bump::Bump::VERSION_REGEX)[0]).should eq "1.2.3-alpha1"
     end
 
+    it "recognises the rake release pre release format" do
+      ("1.17.0.pre.rc1".match(Bump::Bump::VERSION_REGEX)[0]).should eq "1.17.0.pre.rc1"
+    end
+
     it "does not recognise a release candidate with a dash and a number" do
       ("1.2.3-rc-1".match(Bump::Bump::VERSION_REGEX)[0]).should eq "1.2.3-rc"
     end
@@ -313,7 +317,7 @@ describe Bump do
 
 
   context "version in VERSION" do
-    let(:version) { "1.2.3" }
+    let(:version) { "1.2.3-rc.1" }
     let(:version_file) { "lib/foo/version.rb" }
 
     before do

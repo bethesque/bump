@@ -18,7 +18,9 @@ module Bump
     PRERELEASE    = ["alpha", "beta", "rc", nil].freeze
     OPTIONS       = BUMPS | ["set", "current", "file"]
     VERSION_REGEX = /(\d+\.\d+\.\d+
-                        (?:-
+                        (?:
+                          (-|\.)
+                          (pre\.)?
                           (?:#{PRERELEASE.compact.join('|')})
                           (?:\.?\d+)?
                         )?
